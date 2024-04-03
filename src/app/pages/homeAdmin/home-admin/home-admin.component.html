@@ -1,0 +1,224 @@
+<div class="Body">
+
+  <header>
+    <app-header-car />
+  </header>
+
+  <section>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-4 divForm">
+          <nav>
+            <app-nav-car-admin />
+          </nav>
+        </div>
+
+        <div class="col-lg-8 divList">
+          <div class="tablePage">
+
+            <mat-accordion class="example-headers-align">
+              <mat-expansion-panel class="expansionColor" [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
+                <mat-expansion-panel-header>
+                  <mat-panel-title class="textLabelColor">
+                    LISTA CLIENTES
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <mat-form-field class="filterS">
+                  <mat-label>Filter</mat-label>
+                  <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
+                </mat-form-field>
+
+                  <div class="example-container  mat-elevation-z8" tabindex="0">
+                    <table mat-table [dataSource]="dataSource" >
+
+                      <!-- ID Column -->
+                      <ng-container matColumnDef="id" sticky>
+                        <th mat-header-cell *matHeaderCellDef> ID </th>
+                        <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+                      </ng-container>
+
+                      <!-- NOME Column -->
+                      <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef> NOME </th>
+                        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                      </ng-container>
+
+                      <!-- CPF Column -->
+                      <ng-container matColumnDef="cpf">
+                        <th mat-header-cell *matHeaderCellDef> CPF </th>
+                        <td mat-cell *matCellDef="let element"> {{formatCnpjCpf(element.cpf) }} </td>
+                      </ng-container>
+
+                      <!-- Star Column -->
+                      <ng-container matColumnDef="star" stickyEnd>
+                        <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
+                        <td mat-cell *matCellDef="let element">
+                          <mat-icon>more_vert</mat-icon>
+                        </td>
+                      </ng-container>
+
+                      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                      <!-- Row shown when there is no matching data. -->
+                      <tr class="mat-row" *matNoDataRow>
+                        <td class="mat-cell" colspan="6">No data matching the filter "{{input.value}}"</td>
+                      </tr>
+                  </table>
+                </div>
+                <mat-paginator
+                  [pageSizeOptions]="[5, 10, 15]"
+                  [length]="length"
+                  [pageSize]="pageSize"
+                  [pageIndex]="pageIndex"
+                  showFirstLastButtons
+                  (page)="handlePageEventClients($event)"
+                  aria-label="Select page of Parkings">
+                </mat-paginator>
+                <mat-action-row>
+                  <button mat-button color="primary" (click)="nextStep()">Next</button>
+                </mat-action-row>
+                </mat-expansion-panel>
+
+                <mat-expansion-panel class="expansionColor" [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
+                  <mat-expansion-panel-header>
+                    <mat-panel-title >
+                      BUSCA CLIENTE CPF
+                    </mat-panel-title>
+                  </mat-expansion-panel-header>
+
+                <div class="row">
+                  <div class="col-sm-6">
+                      <mat-form-field class="filterS">
+                        <mat-label>Filter</mat-label>
+                        <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #inputCPF>
+                      </mat-form-field>
+                  </div>
+                  <div class="col-sm-4">
+                    <form>
+                      <p>
+                        <mat-form-field class="filterS">
+                          <mat-label>Busca CPF</mat-label>
+                          <input matInput type="text" name="clientCPF" [formControl]="formClientCPF" placeholder="Ex.:00000000000">
+                          @if (formClientCPF.hasError('required')){
+                            <mat-error> Você deve inserir um valor </mat-error>
+                          }@else if(formClientCPF.hasError('maxlength')){
+                            <mat-error> Max 11 caracteres e conter "-" </mat-error>
+                          }@else if(formClientCPF.hasError('minlength')){
+                            <mat-error> MIn 11 caracteres e conter "-" </mat-error>
+                          }
+                        </mat-form-field>
+                    </p>
+                  </form>
+                  </div>
+                  <div class="col-sm-2 buttonCPF">
+                    <button mat-raised-button color="primary" (click)="handlePageEventCPF()">Buscar CPF</button>
+                  </div>
+
+                </div>
+
+                <div class="example-container  mat-elevation-z8" tabindex="0">
+                  <table mat-table [dataSource]="_dataSource" >
+
+                    <!-- Vaga Column -->
+                    <ng-container matColumnDef="vacancyCode" sticky>
+                      <th mat-header-cell *matHeaderCellDef> VAGA </th>
+                      <td mat-cell *matCellDef="let element"> {{element.vacancyCode}} </td>
+                    </ng-container>
+
+                    <!-- MARCA Column -->
+                    <ng-container matColumnDef="brand">
+                      <th mat-header-cell *matHeaderCellDef> MARCA </th>
+                      <td mat-cell *matCellDef="let element"> {{element.brand}} </td>
+                    </ng-container>
+
+                    <!-- MODELO Column -->
+                    <ng-container matColumnDef="model">
+                      <th mat-header-cell *matHeaderCellDef> MODELO </th>
+                      <td mat-cell *matCellDef="let element"> {{ element.model }} </td>
+                    </ng-container>
+
+                    <!-- PLACA Column -->
+                    <ng-container matColumnDef="plate" sticky>
+                      <th mat-header-cell *matHeaderCellDef> PLACA </th>
+                      <td mat-cell *matCellDef="let element"> {{element.plate}} </td>
+                    </ng-container>
+
+                    <!-- COR Column -->
+                    <ng-container matColumnDef="color">
+                      <th mat-header-cell *matHeaderCellDef> COR </th>
+                      <td mat-cell *matCellDef="let element"> {{element.color}} </td>
+                    </ng-container>
+
+                    <!-- VALOR Column -->
+                    <ng-container matColumnDef="value">
+                      <th mat-header-cell *matHeaderCellDef> VALOR </th>
+                      <td mat-cell *matCellDef="let element">{{ formatCurrency(element.value) }} </td>
+                    </ng-container>
+
+                    <!-- DESCONTO Column -->
+                    <ng-container matColumnDef="discount" sticky>
+                      <th mat-header-cell *matHeaderCellDef> DESCONTO </th>
+                      <td mat-cell *matCellDef="let element"> {{ formatCurrency(element.discount)}} </td>
+                    </ng-container>
+
+                    <!-- DATA ENTRADA Column -->
+                    <ng-container matColumnDef="entryData">
+                      <th mat-header-cell *matHeaderCellDef> DATA ENTRADA </th>
+                      <td mat-cell *matCellDef="let element"> {{ formatData(element.entryData) }} </td>
+                    </ng-container>
+
+                    <!-- DATA SAÍDA Column -->
+                    <ng-container matColumnDef="departureData">
+                      <th mat-header-cell *matHeaderCellDef> DATA SAÍDA </th>
+                      <td mat-cell *matCellDef="let element"> {{ formatData(element.departureData) }} </td>
+                    </ng-container>
+
+                    <!-- RECIBO Column -->
+                    <ng-container matColumnDef="receipt">
+                      <th mat-header-cell *matHeaderCellDef> RECIBO </th>
+                      <td mat-cell *matCellDef="let element"> {{element.receipt}} </td>
+                    </ng-container>
+
+                    <!-- Star Column -->
+                    <ng-container matColumnDef="star" stickyEnd>
+                      <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
+                      <td mat-cell *matCellDef="let element">
+                        <mat-icon>more_vert</mat-icon>
+                      </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="_displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: _displayedColumns;"></tr>
+
+                    <!-- Row shown when there is no matching data. -->
+                    <tr class="mat-row" *matNoDataRow>
+                      <td class="mat-cell" colspan="6">No data matching the filter "{{inputCPF.value}}"</td>
+                    </tr>
+                  </table>
+                </div>
+
+                <mat-paginator
+                  [pageSizeOptions]="[5, 10, 15]"
+                  [length]="_length"
+                  [pageSize]="_pageSize"
+                  [pageIndex]="_pageIndex"
+                  showFirstLastButtons
+                  (page)="handlePageEventCPF($event)"
+                  aria-label="Select page of Parkings">
+                </mat-paginator>
+
+                <mat-action-row>
+                  <button mat-button color="warn" (click)="prevStep()">Previous</button>
+                  <button mat-button color="primary" (click)="nextStep()">End</button>
+                </mat-action-row>
+              </mat-expansion-panel>
+            </mat-accordion>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
