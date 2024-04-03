@@ -1,0 +1,14 @@
+:host{
+  .msgSuccess {
+    display: flex;
+    justify-content:flex-start;
+    align-items: center;
+    color: hotpink;
+
+    i{
+      font-size: 1.2em;
+      color:#00FF00;
+      margin-right: 10px;
+    }
+  }
+}
