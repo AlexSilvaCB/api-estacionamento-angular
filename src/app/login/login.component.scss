@@ -1,0 +1,237 @@
+:host{
+
+  #BodyLogin{
+    height: 100vh;
+    width: 100%;
+    background-color: #DCDCDC;
+    margin: 0;
+    padding: 0;
+   }
+
+   .containerBody{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 90vh;
+   }
+
+   .containerRL{
+    position: relative;
+    width: 70vw;
+    height: 70vh;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0,0,0, 0.3),  0 6px 20px rgba(0,0,0, 0.3);
+    overflow: hidden;
+    background-color: #fff;
+   }
+
+   .containerRegLog{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    overflow: auto;
+    z-index: 5;
+   }
+
+   .containerRL::before{
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(-45deg, #FFD700, rgba(34, 34, 34));
+    transform: translateX(-100%);
+    transition: 1s ease-in-out;
+    z-index: 6;
+   }
+
+   .containerRegister, .containerLogin{
+    height: 80%;
+    width: 40%;
+    min-width: 238px;
+    border-radius: 10px;
+
+    fieldset {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 10px 15px;
+
+    legend{
+      border-radius: 15px;
+      height: 50px;
+      line-height: 50px;
+      padding-left: 15px;
+      margin-bottom: 25px;
+    }
+
+    p, .example-full-width{
+      width: 100%;
+    }
+    }
+
+    button{
+      margin-top: 20px;
+      width: 70%;
+    }
+   }
+
+   .spinnerLog, .spinnerReg{
+    margin: 0 0 0 10px;
+   }
+
+   .containerRegister{
+    opacity: 0;
+    transition: 0.5s ease-in-out;
+    transition-delay: 1s;
+    legend{
+      border: 1px solid black;
+    }
+   }
+
+   .containerLogin{
+    opacity: 1;
+    transition: 0.5s ease-in-out;
+    transition-delay: 1s;
+    legend{
+      background-color: black;
+      color: #FFD700;
+    }
+   }
+
+   .panels-container{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+  }
+
+  .panel{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    width: 38%;
+    min-width: 238px;
+    padding: 0 10px;
+    text-align: center;
+    z-index: 6;
+
+    .content{
+      color: #fff;
+      transition: 1s ease-in-out;
+      transition-delay: 0.1s;
+    }
+
+    h3{
+      font-size: 24px;
+    }
+
+    p{
+      font-size: 15px;
+      padding: 10px;
+    }
+  }
+
+  .image{
+    width: 70%;
+    margin-top: 15px;
+    transition: 0.5s ease-in-out;
+    transition-delay: 0.4s;
+  }
+
+  .right-panel{
+    pointer-events: none;
+  }
+
+  .left-panel .image,
+  .left-panel .content{
+    transform: translateX(0);
+  }
+
+  .right-panel .image,
+  .right-panel .content{
+    transform: translateX(200%);
+  }
+
+  .account-text{
+    display: none;
+  }
+
+  //animation
+
+  .containerRL.sign-up-mode::before{
+    transform: translate(0);
+  }
+
+  .containerRL.sign-up-mode .right-panel .image,
+  .containerRL.sign-up-mode .right-panel .content{
+    transform: translateX(0);
+  }
+
+  .containerRL.sign-up-mode .left-panel .image,
+  .containerRL.sign-up-mode .left-panel .content{
+    transform: translateX(-200%);
+  }
+
+  .containerRL.sign-up-mode .containerRegister{
+    opacity: 1;
+  }
+
+  .containerRL.sign-up-mode .containerLogin{
+    opacity: 0;
+  }
+
+  .containerRL.sign-up-mode .right-panel{
+    pointer-events: all;
+  }
+
+  .containerRL.sign-up-mode .left-panel{
+    pointer-events: none;
+  }
+
+  @media (max-width: 767.98px) {
+    .containerRL{
+      height: 100vh;
+      width: 100%;
+      }
+  }
+
+
+  @media (max-width:  575.98px) {
+    .containerRL::before, .panels-container, .containerRegister{
+      display: none;
+      }
+
+    .containerRegister, .containerLogin{
+      width: 80%;
+      }
+
+    .containerRL.sign-up-mode2 .containerRegister{
+        display:block;
+        opacity: 1;
+    }
+
+    .containerRL.sign-up-mode2 .containerLogin{
+        display: none;
+
+      }
+
+      .account-text{
+        display: block;
+        margin-top: 10px;
+      }
+  }
+}

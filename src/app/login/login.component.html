@@ -1,0 +1,129 @@
+<div id="BodyLogin">
+  <header>
+    <app-header-car />
+  </header>
+  <div class="containerBody">
+    <div class="containerRL {{cardRegLog}} {{cardLogReg}}">
+      <div class="containerRegLog">
+        <div class="containerRegister">
+          <form  [formGroup]="registerFormAndLogin" >
+            <fieldset>
+              <legend>REGISTER
+                <i class="bi bi-car-front-fill"></i>
+                <i class="bi bi-geo-alt-fill"></i>
+                @if( spinnerR ) {
+                  <div class="spinnerReg spinner-grow text-warning" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                }
+              </legend>
+              <p>
+                <mat-form-field class="example-full-width">
+                  <mat-label>E-mail</mat-label>
+                  <input matInput type="email" id="inputUserNamReg" formControlName="username" placeholder="example@email.com">
+                  <mat-icon matSuffix>mail</mat-icon>
+                  @if (registerFormAndLogin.get('username')?.hasError('required')){
+                    <mat-error> Você deve inserir um valor </mat-error>
+                  }@else if (registerFormAndLogin.get('username')?.hasError('pattern')) {
+                    <mat-error> Email formato inválido </mat-error>
+                  }
+                </mat-form-field>
+              </p>
+
+              <p>
+                <mat-form-field class="example-full-width">
+                  <mat-label>Password</mat-label>
+                  <input  matInput type="password"
+                  id="inputPasswordReg" formControlName="password" placeholder="******">
+                  <mat-icon matSuffix>lock</mat-icon>
+                  @if (registerFormAndLogin.get('password')?.hasError('required')){
+                    <mat-error> Você deve inserir um valor </mat-error>
+                  }@else if (registerFormAndLogin.get('password')?.hasError('minlength')) {
+                    <mat-error> Senha Min 6 caracteres </mat-error>
+                  }@else if (registerFormAndLogin.get('password')?.hasError('maxlength')) {
+                    <mat-error> Senha Maxn 6 caracteres </mat-error>
+                  }
+                </mat-form-field>
+              </p>
+
+              <button mat-raised-button color="primary" [disabled]="validateFields()"
+              (click)="userRegisterAndLogin(1)">Enviar</button>
+            </fieldset>
+          </form>
+            <p class="account-text">Já tem uma conta?
+              <a href="#" id="sign-up-btn2" (click)="transitionRegLog2()">Login</a>
+            </p>
+        </div>
+
+        <div class="containerLogin" >
+          <form [formGroup]="registerFormAndLogin">
+            <fieldset>
+              <legend>LOGIN
+                <i class="bi bi-car-front"></i>
+                <i class="bi bi-geo-alt"></i>
+                @if(spinnerL){
+                <div class="spinnerLog spinner-grow text-light" role="status">
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+                }
+              </legend>
+              <p>
+                <mat-form-field  class="example-full-width">
+                  <mat-label>E-mail</mat-label>
+                    <input matInput type="email" id="inputUserNameLog" formControlName="username"
+                    placeholder="example@email.com">
+                    <mat-icon matSuffix>mail</mat-icon>
+                    @if (registerFormAndLogin.get('username')?.hasError('required')){
+                      <mat-error> Você deve inserir um valor </mat-error>
+                    }@else if (registerFormAndLogin.get('username')?.hasError('pattern')) {
+                      <mat-error> Email formato inválido </mat-error>
+                    }
+                </mat-form-field>
+              </p>
+              <p>
+                <mat-form-field class="example-full-width">
+                  <mat-label>Password</mat-label>
+                  <input matInput type="password" id="inputPasswordLog" formControlName="password"
+                  placeholder="******">
+                  <mat-icon matSuffix>lock</mat-icon>
+                  @if (registerFormAndLogin.get('password')?.hasError('required')){
+                    <mat-error> Você deve inserir um valor </mat-error>
+                  }@else if (registerFormAndLogin.get('password')?.hasError('minlength')) {
+                    <mat-error> Senha Min 6 caracteres </mat-error>
+                  }@else if (registerFormAndLogin.get('password')?.hasError('maxlength')) {
+                    <mat-error> Senha Maxn 6 caracteres </mat-error>
+                  }
+                </mat-form-field>
+              </p>
+
+              <button mat-raised-button color="primary" [disabled]="validateFields()"
+              (click)="userRegisterAndLogin(2)">Enviar</button>
+              </fieldset>
+
+          </form>
+            <p class="account-text">Não tenho uma conta?
+              <a href="#" id="sign-in-btn2" (click)="transitionRegLog2()">Register</a>
+            </p>
+        </div>
+      </div>
+      <div class="panels-container">
+        <div class="panel left-panel">
+          <div class="content">
+            <h3>Bem vindo!!!</h3>
+            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Doloremque, deserunt sunt. Repellat, harum</p>
+            <button mat-raised-button class="btn" (click)="transitionRegLog()">Register</button>
+          </div>
+          <img src="../../../assets/undraw_my_current_location_re_whmt.svg" alt="" class="image">
+        </div>
+        <div class="panel right-panel">
+          <div class="content">
+            <h3>Criar uma conta?</h3>
+            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Doloremque, deserunt sunt. Repellat, harum</p>
+            <button mat-raised-button class="btn" (click)="transitionRegLog()" > Login </button>
+          </div>
+          <img src="../../../assets/undraw_order_ride_re_372k.svg" alt="" class="image">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
