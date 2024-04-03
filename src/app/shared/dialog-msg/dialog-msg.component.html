@@ -1,0 +1,37 @@
+@if(data.vacancyCode){
+  <h2 mat-dialog-title>VAGA: {{data.vacancyCode}}</h2>
+  <mat-dialog-content>
+    Recibo: {{ data.receipt }}
+    <ul>
+      <li>PLACA: {{ data.plate }}</li>
+      <li>MODELO: {{ data.model }}</li>
+      <li>MARCA: {{ data.brand }}</li>
+      <li>COR: {{ data.color }}</li>
+      <li>ENTRADA: {{ formatData(data.entryData) }}</li>
+      <li>CPF: {{ formatCnpjCpf(data.clientCpf) }}</li>
+    </ul>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-raised-button color="primary" mat-dialog-close>Close</button>
+  </mat-dialog-actions>
+}@else if(_data.status){
+  <mat-dialog-content>
+    VAGA: {{ _data.code }}
+    <ul>
+      <li>ID:    {{ _data.id }}</li>
+      <li>VAGA:  {{ _data.code }}</li>
+      <li>STATUS: {{ _data.status }}</li>
+    </ul>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-raised-button color="primary" mat-dialog-close>Close</button>
+  </mat-dialog-actions>
+} @else{
+  <h2 mat-dialog-title>Error:</h2>
+  <mat-dialog-content>
+      <p> {{data}} </p>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-raised-button color="primary" mat-dialog-close>Close</button>
+  </mat-dialog-actions>
+}
