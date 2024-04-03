@@ -10,12 +10,13 @@ import { Router } from '@angular/router';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { ParkingService } from '../services/parking.service';
+import { HeaderCarComponent } from '../shared/header-car/header-car.component';
 
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule,
-    MatInputModule, MatIconModule, MatButtonModule],
+    MatInputModule, MatIconModule, MatButtonModule, HeaderCarComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
