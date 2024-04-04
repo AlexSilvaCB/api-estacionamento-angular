@@ -1,0 +1,47 @@
+:host{
+
+  .Body{
+    height: 85vh;
+  }
+
+  .example-headers-align .mat-expansion-panel-header-description {
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .example-headers-align .mat-mdc-form-field + .mat-mdc-form-field {
+    margin-left: 8px;
+  }
+
+  .expansionColor{
+    border-bottom: 1px solid rgb( 34, 34, 34);
+  }
+
+  .checkOutBoder{
+    border-bottom: 1px solid black;
+    height: 50px;
+    display: grid;
+    align-items: center;
+    overflow: hidden;
+
+    p{
+      margin: 0;
+      width: 100vw;
+    }
+  }
+
+  @media (min-width: 575.98px) and (max-width:991.98px) {
+    .Body{
+      height: 90vh;
+    }
+
+  }
+
+  @media (max-width: 575.98px) {
+    .formField{
+      .mat-mdc-form-field + .mat-mdc-form-field{
+        margin-left: 0;
+      }
+    }
+  }
+}

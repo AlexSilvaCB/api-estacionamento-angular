@@ -1,0 +1,231 @@
+<div class="Body">
+  <h2 mat-dialog-title>CAR POINT
+    <i class="bi bi-geo-alt"></i>
+  </h2>
+
+  <mat-accordion class="example-headers-align">
+    <mat-expansion-panel class="expansionColor" [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          CHECK-IN
+        </mat-panel-title>
+        <mat-panel-description>
+          Entrada de Veículos
+          <mat-icon>login</mat-icon>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+  <mat-dialog-content class="formField">
+  <form [formGroup]="formCheckin">
+    <div >
+      <mat-form-field>
+        <mat-label>CPF</mat-label>
+        <input matInput type="text" name="clientCpf" formControlName="clientCpf" placeholder="Ex.:00000000000">
+        @if (formCheckin.get('clientCpf')?.hasError('required')){
+          <mat-error> Você deve inserir um valor </mat-error>
+        }@else if(formCheckin.get('clientCpf')?.hasError('maxlength')){
+          <mat-error> Max 11 caracteres </mat-error>
+        }@else if(formCheckin.get('clientCpf')?.hasError('minlength')){
+          <mat-error> MIn 11 caracteres</mat-error>
+        }@else if(formCheckin.get('clientCpf')?.hasError('pattern')){
+          <mat-error> CPF sem pontos e traço </mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field class="formPlaca">
+        <mat-label>PLACA</mat-label>
+        <input matInput type="text" name="plate" formControlName="plate" placeholder="Ex.: AAA-9999">
+        @if (formCheckin.get('plate')?.hasError('required')){
+          <mat-error> Você deve inserir um valor </mat-error>
+        }@else if(formCheckin.get('plate')?.hasError('maxlength')){
+          <mat-error> Max 8 caracteres e conter "-" </mat-error>
+        }@else if(formCheckin.get('plate')?.hasError('minlength')){
+          <mat-error> MIn 8 caracteres e conter "-" </mat-error>
+        }
+      </mat-form-field>
+    </div>
+
+    <div>
+      <mat-form-field>
+        <mat-label>MARCA</mat-label>
+        <input matInput type="text" name="brand" formControlName="brand">
+        @if (formCheckin.get('brand')?.hasError('required')){
+          <mat-error> Você deve inserir um valor </mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>MODELO</mat-label>
+        <input matInput type="text" name="model" formControlName="model">
+        @if (formCheckin.get('model')?.hasError('required')){
+          <mat-error> Você deve inserir um valor </mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>COR</mat-label>
+        <input matInput type="text" name="color" formControlName="color">
+        @if (formCheckin.get('color')?.hasError('required')){
+          <mat-error> Você deve inserir um valor </mat-error>
+        }
+      </mat-form-field>
+    </div>
+    </form>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+      <button mat-button mat-raised-button color="primary" (click)="checkInAdm()"
+      [disabled]="validateFieldsFormCheckin()" cdkFocusInitial>Enviar</button>
+      <button mat-button mat-raised-button color="warn" (click)="onNoClick()">Fechar</button>
+      <button mat-button mat-raised-button (click)="resetForms(1)">Limpar</button>
+    </mat-dialog-actions>
+
+    <mat-action-row>
+      <button mat-button color="primary" (click)="nextStep()">Next</button>
+    </mat-action-row>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel class="expansionColor" [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        CHECK-OUT
+      </mat-panel-title>
+      <mat-panel-description>
+        Baixa Veículos
+        <mat-icon>logout</mat-icon>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <mat-dialog-content>
+
+      <form>
+        <p>
+          <mat-form-field>
+            <mat-label>RECIBO</mat-label>
+            <input matInput type="text" name="ReciboCheckOut" [formControl]="formCheckOut" placeholder="Ex.:00000000-000000">
+            @if (formCheckOut.hasError('required')){
+              <mat-error> Você deve inserir um valor </mat-error>
+            }@else if(formCheckOut.hasError('maxlength')){
+              <mat-error> Max 15 caracteres e conter "-" </mat-error>
+            }@else if(formCheckOut.hasError('minlength')){
+              <mat-error> MIn 15 caracteres e conter "-" </mat-error>
+            }
+          </mat-form-field>
+      </p>
+    </form>
+
+    @if(getRelAdmCheckOut(); as data){
+    <div class="container text-left">
+      <div class="row">
+        <div class="col-sm-2 checkOutBoder">
+        Vaga: {{data.vacancyCode}}
+        </div>
+        <div class="col-sm-10 checkOutBoder">
+          Recibo: {{data.receipt}}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-4 checkOutBoder">
+          Valor Total: {{ formatCurrency(calcTotalCheckOut(data.value, data.discount)) }}
+        </div>
+        <div class="col-sm-4 checkOutBoder">
+          Valor: {{ formatCurrency(data.value) }}
+        </div>
+        <div class="col-sm-4 checkOutBoder">
+          Desconto: {{ formatCurrency(data.discount) }}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-4 checkOutBoder">
+          <p>CPF: {{data.clientCpf}}</p>
+        </div>
+        <div class="col-sm-4 checkOutBoder">
+          <p>Data Entrada: </p>
+          <p>{{ formatData(data.entryData) }}</p>
+        </div>
+        <div class="col-sm-4 checkOutBoder">
+          <p>Data Saída: </p>
+          <p>{{ formatData(data.departureData) }}</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-3 checkOutBoder">
+          Placa: {{data.plate}}
+        </div>
+        <div class="col-sm-3 checkOutBoder">
+          Marca: {{data.brand}}
+        </div>
+        <div class="col-sm-3 checkOutBoder">
+          Modelo: {{data.model}}
+        </div>
+        <div class="col-sm-3 checkOutBoder">
+          Cor: {{data.color}}
+        </div>
+      </div>
+    </div>
+  }@else {
+    <div class="container text-left">
+      <div class="row">
+        <div class="col-sm-2 checkOutBoder">
+        Vaga: A-00
+        </div>
+        <div class="col-sm-10 checkOutBoder">
+          Recibo: 00000000-000000
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-4 checkOutBoder">
+          Valor Total: R$ 0,00
+        </div>
+        <div class="col-sm-4 checkOutBoder">
+          Valor: R$ 0,00
+        </div>
+        <div class="col-sm-4 checkOutBoder">
+          Desconto: R$ 0,00
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-4 checkOutBoder">
+          <p>CPF: 000.000.000-00 </p>
+        </div>
+        <div class="col-sm-4 checkOutBoder">
+          <p>Data Entrada: </p>
+          <p>00/00/0000 00:00</p>
+        </div>
+        <div class="col-sm-4 checkOutBoder">
+          <p>Data Saída: </p>
+          <p>00/00/0000 00:00 </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-3 checkOutBoder">
+          Placa: AAA-0000
+        </div>
+        <div class="col-sm-3 checkOutBoder">
+          Marca:
+        </div>
+        <div class="col-sm-3 checkOutBoder">
+          Modelo:
+        </div>
+        <div class="col-sm-3 checkOutBoder">
+          Cor:
+        </div>
+      </div>
+    </div>
+  }
+
+    </mat-dialog-content>
+    <mat-dialog-actions>
+      <button mat-button mat-raised-button color="primary" (click)="checkOutAdm()"
+      [disabled]="validateFieldsFormCheckOut()" cdkFocusInitial>Enviar</button>
+      <button mat-button mat-raised-button color="warn" (click)="onNoClick()">Fechar</button>
+    </mat-dialog-actions>
+
+    <mat-action-row>
+      <button mat-button color="warn" (click)="prevStep()">Previous</button>
+      <button mat-button color="primary" (click)="nextStep()">End</button>
+    </mat-action-row>
+  </mat-expansion-panel>
+
+  </mat-accordion>
+</div>
+
