@@ -1,0 +1,171 @@
+<div id="contentBody">
+
+  <div class="example-sidenav-content">
+    <mat-toolbar color="primary" class="example-toolbar">
+      <button  class="buttonDrawer" type="button" mat-icon-button (click)="drawer.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+
+      <h1 class="example-app-name">CAR POINT MENU</h1>
+      <mat-icon (click)="logout()">logout</mat-icon>
+  </mat-toolbar>
+  </div>
+
+  <mat-drawer-container class="example-container" autosize>
+    <mat-drawer #drawer class="example-sidenav" mode="side">
+
+      <div class="example-action-buttons">
+        <button mat-raised-button color="primary" (click)="accordion.openAll()">Expand All</button>
+        <button mat-raised-button color="primary" class="marginBut" (click)="accordion.closeAll()">Collapse All</button>
+      </div>
+
+      <mat-accordion class="example-headers-align" multi>
+        <mat-expansion-panel  color = "primary" class="buscaId">
+          <mat-expansion-panel-header>
+            <mat-panel-title class="BuscaIdcolor">
+              Update Password
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <form>
+            <p>
+              <mat-form-field>
+                <mat-label>Id</mat-label>
+                <input matInput type="number" name="idForm" [formControl]="formIdUpdate">
+                @if ( formIdUpdate.invalid ){
+                  <mat-error> Você deve inserir um valor </mat-error>
+                }
+              </mat-form-field>
+            </p>
+          </form>
+
+            <form [formGroup]="formUpdatePassword">
+            <p>
+              <mat-form-field>
+                <mat-label>Senha</mat-label>
+                <input matInput type="password" name="currentPassword" formControlName="currentPassword">
+                @if (formUpdatePassword.get('currentPassword')?.hasError('required')){
+                  <mat-error> Você deve inserir um valor </mat-error>
+                }@else if(formUpdatePassword.get('currentPassword')?.hasError('maxlength')){
+                  <mat-error> Senha Max 6 caracteres </mat-error>
+                }@else if(formUpdatePassword.get('currentPassword')?.hasError('minlength')){
+                  <mat-error> Senha Min 6 caracteres </mat-error>
+                }
+              </mat-form-field>
+            </p>
+
+            <p>
+            <mat-form-field>
+                <mat-label>Nova Senha</mat-label>
+                <input matInput type="password" name="newPassword" formControlName="newPassword">
+                @if (formUpdatePassword.get('newPassword')?.hasError('required')){
+                  <mat-error> Você deve inserir um valor </mat-error>
+                }@else if(formUpdatePassword.get('newPassword')?.hasError('maxlength')){
+                  <mat-error> Senha Max 6 caracteres </mat-error>
+                }@else if(formUpdatePassword.get('newPassword')?.hasError('minlength')){
+                  <mat-error> Senha Min 6 caracteres </mat-error>
+                }
+              </mat-form-field>
+            </p>
+
+            <p>
+              <mat-form-field>
+                <mat-label>Confirmar Senha</mat-label>
+                <input matInput type="password" name="confirmPassword" formControlName="confirmPassword">
+                @if (formUpdatePassword.get('confirmPassword')?.hasError('required')){
+                  <mat-error> Você deve inserir um valor </mat-error>
+                }@else if(formUpdatePassword.get('confirmPassword')?.hasError('maxlength')){
+                  <mat-error> Senha Max 6 caracteres </mat-error>
+                }@else if(formUpdatePassword.get('confirmPassword')?.hasError('minlength')){
+                  <mat-error> Senha Min 6 caracteres </mat-error>
+                }
+              </mat-form-field>
+            </p>
+          </form>
+          <button type="button" mat-raised-button color="primary" (click)="passwordUpdate()"
+          [disabled]="validateFieldsUpdatePass()" >Enviar</button>
+          @if(getErrorDetails() ; as data){
+          <p>{{data}}</p>
+          }
+        </mat-expansion-panel>
+
+    <mat-expansion-panel class="buscaId" [disabled]="enableFormsCreateClient()" >
+          <mat-expansion-panel-header>
+            <mat-panel-title class="BuscaIdcolor" id="closePanel">
+            Cadastro
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <form  [formGroup]="formCreateClient">
+            <p>
+              <mat-form-field>
+                <mat-label>Nome</mat-label>
+                  <input matInput type="text" name="name" formControlName="name">
+                  @if (formCreateClient.get('name')?.hasError('required')){
+                    <mat-error> Você deve inserir um valor </mat-error>
+                  }
+                </mat-form-field>
+            </p>
+
+            <p>
+            <mat-form-field>
+                <mat-label>CPF</mat-label>
+                <input matInput type="text"name="cpf" formControlName="cpf" >
+                @if (formCreateClient.get('cpf')?.hasError('required')){
+                  <mat-error> Você deve inserir um valor </mat-error>
+                }@else if(formCreateClient.get('cpf')?.hasError('pattern')){
+                  <mat-error> CPF sem pontos e traço </mat-error>
+                }
+              </mat-form-field>
+            </p>
+
+          </form>
+          <button type="button" mat-raised-button color="primary" (click)="customerRegistration()"
+          [disabled]="validateFieldsCreateClient()" >Enviar</button>
+      </mat-expansion-panel>
+
+
+        <mat-expansion-panel class="buscaId">
+          <mat-expansion-panel-header>
+            <mat-panel-title class="BuscaIdcolor">
+              Relatorio PDF
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <button type="button" mat-raised-button color="primary"
+          (click)="allParkingClientPDF()">Enviar</button>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel class="buscaId">
+          <mat-expansion-panel-header>
+            <mat-panel-title class="BuscaIdcolor">
+            Buscar Vaga
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <form>
+            <p>
+              <mat-form-field>
+                <mat-label>Recibo</mat-label>
+                <input matInput type="text" name="idVagaRecibo" [formControl]="formVagaRecibo">
+                @if (formVagaRecibo.hasError('required')){
+                  <mat-error> Você deve inserir um valor </mat-error>
+                }@else if(formVagaRecibo.hasError('maxlength')){
+                  <mat-error> Senha Max 15 caracteres </mat-error>
+                }@else if(formVagaRecibo.hasError('minlength')){
+                  <mat-error> Senha Min 15 caracteres </mat-error>
+                }
+              </mat-form-field>
+            </p>
+          </form>
+            <button type="button" mat-raised-button color="primary" (click)="getVagaRecibo()"
+            [disabled]="validateFieldsVagaRecibo()" >Enviar</button>
+        </mat-expansion-panel>
+
+      </mat-accordion>
+
+    </mat-drawer>
+
+  </mat-drawer-container>
+
+</div>
+
