@@ -1,0 +1,92 @@
+:host{
+
+  #contentBody{
+    position: relative;
+    width: 100%;
+    height: 100vh;
+  }
+
+    .example-container {
+      position: relative;
+      top: 65px;
+      left: 0px;
+      height: 100%;
+      background-image: url(../../../assets/trilhas-de-semaforo-borradas-na-estrada.jpg);
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+
+    .example-sidenav-content{
+      mat-icon:nth-child(3){
+        width: 100%;
+        text-align: right;
+        color: #fff;
+        text-shadow: 1px 1px black;
+      }
+
+      mat-icon:nth-child(3):hover{
+        color: #FFD700;
+        cursor: pointer;
+      }
+      }
+
+    .example-sidenav-content{
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      width: 100%;
+    }
+
+    .example-sidenav {
+      padding: 20px;
+    }
+
+    //Expasion Form
+    .example-action-buttons {
+      padding-bottom: 20px;
+    }
+
+    .example-headers-align .mat-expansion-panel-header-description {
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .example-headers-align .mat-mdc-form-field + .mat-mdc-form-field {
+      margin-left: 8px;
+      color: #fff;
+    }
+
+    .marginButClose{
+      margin-left: 5px;
+    }
+
+    .expansionColor{
+      background-color: rgba(34, 34, 34);
+      border-bottom: 1px solid #fff;
+      padding: 0;
+      margin: 0;
+
+     .textLabelColor{
+        color: #FFD700;
+      }
+    }
+
+    .borderExpansion{
+      border-bottom: none;
+    }
+
+    button:disabled{
+      background-color: #CCCCFF;
+    }
+
+    @media (max-width: 575.98px) {
+      .example-container{
+        top: 61px;
+      }
+
+      #contentBody{
+        height: 80vh;
+      }
+    }
+
+  }

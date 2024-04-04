@@ -1,0 +1,126 @@
+<div id="contentBody">
+
+  <div class="example-sidenav-content">
+    <mat-toolbar color="primary" class="example-toolbar">
+      <button  class="buttonDrawer" type="button" mat-icon-button (click)="drawer.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <h1 class="example-app-name">CAR POINT MENU</h1>
+      <mat-icon (click)="logout()">logout</mat-icon>
+  </mat-toolbar>
+  </div>
+
+  <mat-drawer-container class="example-container" autosize>
+    <mat-drawer #drawer class="example-sidenav" mode="side">
+
+      <div class="example-action-buttons">
+        <button mat-raised-button color="primary" (click)="accordion.openAll()">Expand All</button>
+        <button mat-raised-button color="primary" class="marginButClose" (click)="accordion.closeAll()">Collapse All</button>
+      </div>
+
+      <mat-accordion class="example-headers-align" multi>
+
+        <mat-expansion-panel class="expansionColor">
+          <mat-expansion-panel-header>
+            <mat-panel-title class="textLabelColor">
+              PARKING CHECK IN/OUT
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <button type="button" mat-raised-button color="primary"
+          (click)="openDialogNavAdm()">Check in/out</button>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel  color = "primary" class="expansionColor">
+          <mat-expansion-panel-header>
+            <mat-panel-title class="textLabelColor">
+              BUSCAR VAGA
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <form>
+            <p>
+              <mat-form-field>
+                <mat-label>VAGA</mat-label>
+                <input matInput type="text" name="byVagancy" [formControl]="formByVacancy" placeholder="A-00">
+                @if (formByVacancy.hasError('required')){
+                  <mat-error> Você deve inserir um valor </mat-error>
+                }@else if(formByVacancy.hasError('minlength')){
+                  <mat-error> Senha Min 4 caracteres </mat-error>
+                }
+              </mat-form-field>
+            </p>
+          </form>
+
+          <button type="button" mat-raised-button color="primary" (click)="byVacancy()"
+          [disabled]="validateFieldsByVaga()">Enviar</button>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel class="expansionColor">
+          <mat-expansion-panel-header>
+            <mat-panel-title class="textLabelColor">
+             BUSCAR VAGA RECIBO
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <form>
+            <p>
+              <mat-form-field>
+                <mat-label>Recibo</mat-label>
+                <input matInput type="text" name="idVagaRecibo" [formControl]="formVagaRecibo">
+                @if (formVagaRecibo.hasError('required')){
+                  <mat-error> Você deve inserir um valor </mat-error>
+                }@else if(formVagaRecibo.hasError('maxlength')){
+                  <mat-error> Senha Max 15 caracteres </mat-error>
+                }@else if(formVagaRecibo.hasError('minlength')){
+                  <mat-error> Senha Min 15 caracteres </mat-error>
+                }
+              </mat-form-field>
+            </p>
+          </form>
+            <button type="button" mat-raised-button color="primary" (click)="getVagaRecibo()"
+            [disabled]="validateFieldsVagaRecibo()" >Enviar</button>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel  color = "primary" class="expansionColor borderExpansion">
+          <mat-expansion-panel-header>
+            <mat-panel-title class="textLabelColor">
+              CRIAR VAGA
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <form [formGroup]="formCreateVacancy">
+            <p>
+              <mat-form-field>
+                <mat-label>VAGA</mat-label>
+                <input matInput type="text" name="createVacancy" formControlName="code" placeholder="A-00">
+                @if (formCreateVacancy.get('code')?.hasError('required')){
+                  <mat-error> Você deve inserir um valor </mat-error>
+                }@else if(formCreateVacancy.get('code')?.hasError('minlength')){
+                  <mat-error> Senha Min 4 caracteres </mat-error>
+                }
+              </mat-form-field>
+            </p>
+            <p>
+              <mat-form-field>
+                <mat-label>STATUS</mat-label>
+                <input matInput type="text" name="statusVacancy" formControlName="status" placeholder="LIVRE | OCUPADO">
+                @if (formCreateVacancy.get('status')?.hasError('required')){
+                  <mat-error> Você deve inserir um valor </mat-error>
+                }
+              </mat-form-field>
+            </p>
+          </form>
+
+          <button type="button" mat-raised-button color="primary" (click)="createVacancy()"
+          [disabled]="validateFieldsVagaCreate()">Enviar</button>
+        </mat-expansion-panel>
+
+      </mat-accordion>
+
+    </mat-drawer>
+
+
+  </mat-drawer-container>
+
+  </div>
