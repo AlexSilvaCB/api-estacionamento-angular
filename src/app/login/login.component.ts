@@ -9,8 +9,10 @@ import { HttpErrorResponse} from '@angular/common/http';
 import { Router } from '@angular/router';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
-import { ParkingService } from '../services/parking.service';
 import { HeaderCarComponent } from '../shared/header-car/header-car.component';
+import { LoginService } from '../services/login.service';
+import { MsgSuccessComponent } from '../shared/msg-success/msg-success.component';
+import { DialogMsgComponent } from '../shared/dialog-msg/dialog-msg.component';
 
 @Component({
   selector: 'app-login',
@@ -21,7 +23,7 @@ import { HeaderCarComponent } from '../shared/header-car/header-car.component';
   styleUrl: './login.component.scss'
 })
 export class LoginComponent implements OnInit {
-  #apiService = inject(ParkingService);
+  #apiService = inject(LoginService);
   #router = inject(Router);
   #snackBar = inject(MatSnackBar);
 
@@ -89,8 +91,6 @@ private onError(msgError: HttpErrorResponse ){
   }else{
     this.openDialog(msgError.error.message)
   }
-
-  console.log(msgError)
 }
 
 private resetInput(){
@@ -112,7 +112,7 @@ private openDialog(e:any) {
     });
   }
 
-  transitionRegLog():void{
+ transitionRegLog():void{
   this.cardRegLog = this.cardRegLog == "" ? "sign-up-mode" : "";
 }
 
