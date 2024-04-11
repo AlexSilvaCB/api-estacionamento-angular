@@ -13,7 +13,6 @@ export class LoginService {
   #loggedUser?: string;
   #isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
 
-
   #http = inject(HttpClient)
   #router = inject(Router);
   #url:string = "http://localhost:8080/api/v1"

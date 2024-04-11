@@ -21,10 +21,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 
-import { InterParkingCheckin } from '../../carParkingModule/pages/interfacesCliAdmin/interParkingCheckin';
+
 import { DialogMsgComponent } from '../dialog-msg/dialog-msg.component';
 import { MsgSuccessComponent } from '../msg-success/msg-success.component';
 import { ParkingService } from '../../services/parking.service';
+import { InterParkingCheckin } from '../../pages/interfacesCliAdmin/interParkingCheckin';
+import { UtilsService } from '../../services/utils.service';
 
 @Component({
   selector: 'app-dialog-form-admin',
@@ -46,6 +48,7 @@ import { ParkingService } from '../../services/parking.service';
 })
 export class DialogFormAdminComponent {
   #apiService = inject(ParkingService);
+  #utilsService = inject(UtilsService);
   #fb = inject(NonNullableFormBuilder);
 
   step = 0;
@@ -57,7 +60,7 @@ export class DialogFormAdminComponent {
   getRelAdmCheckOut = this.#apiService.getAdmCheckOut;
 
   constructor(
-    public dialogRef: MatDialogRef<DialogFormAdmMsgComponent>,
+    public dialogRef: MatDialogRef<DialogFormAdminComponent>,
     @Inject(MAT_DIALOG_DATA) public data: InterParkingCheckin,
     private _snackBar: MatSnackBar,
     public dialog: MatDialog
@@ -166,11 +169,10 @@ private openSnackBar(snack:string ) {
   }
 
   formatCurrency(value: number){
-    return new Intl.NumberFormat('pt-BR',{style: 'currency', currency: 'BRL'}).format(value)
+    return this.#utilsService.formatCurrency(value)
    }
 
    formatData(value: string){
-    const data = new Date(value)
-    return data.toLocaleDateString('pt-BR', {hour: "2-digit", minute: "2-digit"})
+    return this.#utilsService.formatData(value)
     }
 }

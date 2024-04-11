@@ -1,16 +1,17 @@
 import { Routes } from '@angular/router';
+import { authGuardGuard, authGuardGuard_2 } from './guard/auth-guard.guard';
 
 export const routes: Routes = [
   {
     path:'home',
     title: 'homeAdmin',
-    loadComponent: ()=> import('./carParkingModule/pages/home-admin/home-admin.component').then((p) =>(p.HomeAdminComponent)),
+    loadComponent: ()=> import('./pages/homeAdmin/home-admin.component').then((p) =>(p.HomeAdminComponent)),
     canMatch: [authGuardGuard],
   },
   {
     path:'home',
     title: 'homeClient',
-    loadComponent: ()=> import('./carParkingModule/pages/home-client/home-client.component').then((p) =>(p.HomeClientComponent)),
+    loadComponent: ()=> import('./pages/homeClient/home-client.component').then((p) =>(p.HomeClientComponent)),
     canMatch: [authGuardGuard_2],
   },
   {

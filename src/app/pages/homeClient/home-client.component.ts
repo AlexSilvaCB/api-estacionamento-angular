@@ -9,15 +9,16 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCardModule } from '@angular/material/card';
 
 import { InterParkingCustomer } from './../interfacesCliAdmin/interParkingCustomer';
-import { NavCarComponent } from '../../../shared/nav-carClient/nav-car.component';
 import { HeaderCarComponent } from '../../shared/header-car/header-car.component';
 import { ParkingService } from '../../services/parking.service';
+import { UtilsService } from '../../services/utils.service';
+import { NavCarClientComponent } from '../../shared/nav-car-client/nav-car-client.component';
 
 @Component({
   selector: 'app-home-client',
   standalone: true,
   imports: [HeaderCarComponent,
-    NavCarComponent,
+    NavCarClientComponent,
     MatIconModule,
     MatFormFieldModule,
     MatInputModule,
@@ -29,6 +30,7 @@ import { ParkingService } from '../../services/parking.service';
   templateUrl: './home-client.component.html',
   styleUrl: './home-client.component.scss'
 })
+
 export class HomeClientComponent implements OnInit{
   displayedColumns: string[] = ['vacancyCode', 'brand', 'model', 'plate', 'color', 'value', 'discount',
   'entryData', 'departureData', 'receipt', "star"];
@@ -38,6 +40,7 @@ export class HomeClientComponent implements OnInit{
   pageSize:number = 5
   pageIndex = 0;
   #apiService = inject(ParkingService);
+  #utilsService = inject(UtilsService)
   getDetails = this.#apiService.getClientDetails;
   getAllParkingCustomer = this.#apiService.getAllParkingCustomer;
   getParkingCustomer = this.#apiService.getParkingCustomer;
@@ -66,29 +69,15 @@ export class HomeClientComponent implements OnInit{
   }
 
   formatCnpjCpf(value:string){
-    const cnpjCpf = value.replace(/\D/g, '');
-
-  if (cnpjCpf.length === 11) {
-    return cnpjCpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/g, "\$1.\$2.\$3-\$4");
-  }
-
-  return cnpjCpf.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/g, "\$1.\$2.\$3/\$4-\$5");
+    return this.#utilsService.formatCnpjCpf(value)
 }
 
 formatCurrency(value: number){
-
-  if(value == undefined){
-    return null
-  }
-  return new Intl.NumberFormat('pt-BR',{style: 'currency', currency: 'BRL'}).format(value)
+  return this.#utilsService.formatCurrency(value)
  }
 
  formatData(value: string){
-  const data = new Date(value)
-  if(data.toString() == 'Invalid Date'){
-  return null
-  }
-  return data.toLocaleDateString('pt-BR', {hour: "2-digit", minute: "2-digit"})
+  return this.#utilsService.formatData(value)
   }
 
 }

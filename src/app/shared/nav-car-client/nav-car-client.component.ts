@@ -14,7 +14,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MsgSuccessComponent } from '../msg-success/msg-success.component';
 import { DialogMsgComponent } from '../dialog-msg/dialog-msg.component';
 import { ParkingService } from '../../services/parking.service';
-
+import { LoginService } from '../../services/login.service';
 
 @Component({
   selector: 'app-nav-car-client',
@@ -35,8 +35,9 @@ export class NavCarClientComponent implements OnInit{
   @ViewChild(MatAccordion) accordion!: MatAccordion;
   showFiller = false;
   #apiService = inject(ParkingService);
-  #fb = inject(NonNullableFormBuilder);
 
+  #fb = inject(NonNullableFormBuilder);
+  #logoutService = inject(LoginService);
   getErrorDetails = this.#apiService.getErrorClientDetails
 
   durationInSeconds = 5 ;
@@ -164,7 +165,7 @@ getVagaRecibo(){
   }
 
   logout(){
-    this.#apiService.logout()
+    this.#logoutService.logout()
   }
 
 }

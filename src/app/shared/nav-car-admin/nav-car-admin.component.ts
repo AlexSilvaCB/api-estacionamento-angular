@@ -13,8 +13,9 @@ import { MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition, MatSnackBar
 
 import { DialogMsgComponent } from '../dialog-msg/dialog-msg.component';
 import { MsgSuccessComponent } from '../msg-success/msg-success.component';
-import { DialogFormAdmMsgComponent } from '../dialog-form-adm-msg/dialog-form-adm-msg.component';
 import { ParkingService } from '../../services/parking.service';
+import { DialogFormAdminComponent } from '../dialog-form-admin/dialog-form-admin.component';
+import { LoginService } from '../../services/login.service';
 
 
 @Component({
@@ -36,6 +37,7 @@ export class NavCarAdminComponent implements OnInit {
   @ViewChild(MatAccordion) accordion!: MatAccordion;
   showFiller = false;
   #apiService = inject(ParkingService);
+  #logoutService = inject(LoginService);
   #fb = inject(NonNullableFormBuilder);
 
   getErrorDetails = this.#apiService.getErrorClientDetails
@@ -127,8 +129,7 @@ getVagaRecibo(){
   }
 
   openDialogNavAdm(): void {
-    const dialogRef = this.dialog.open(DialogFormAdmMsgComponent, {
-      //data: {name: this.name, animal: this.animal},
+    const dialogRef = this.dialog.open(DialogFormAdminComponent, {
     });
   }
 
@@ -141,7 +142,7 @@ getVagaRecibo(){
   }
 
   logout(){
-    this.#apiService.logout()
+    this.#logoutService.logout();
   }
 
 }

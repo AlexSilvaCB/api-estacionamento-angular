@@ -1,8 +1,10 @@
-import { Component, Inject } from '@angular/core';
+import { Component, inject, Inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import {MAT_DIALOG_DATA, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogModule, MatDialogTitle} from '@angular/material/dialog';
-import { InterResVagaRecibo } from '../../carParkingModule/pages/interfacesCliAdmin/interResVagaRecibo';
-import { InterAdmVacancy } from '../../carParkingModule/pages/interfacesCliAdmin/interAdmVacancy';
+import { InterResVagaRecibo } from '../../pages/interfacesCliAdmin/interResVagaRecibo';
+import { InterAdmVacancy } from '../../pages/interfacesCliAdmin/interAdmVacancy';
+import { UtilsService } from '../../services/utils.service';
+
 @Component({
   selector: 'app-dialog-msg',
   standalone: true,
@@ -11,22 +13,18 @@ import { InterAdmVacancy } from '../../carParkingModule/pages/interfacesCliAdmin
   styleUrl: './dialog-msg.component.scss'
 })
 export class DialogMsgComponent {
+  #utilsService = inject(UtilsService)
+
   constructor(@Inject(MAT_DIALOG_DATA) public data: InterResVagaRecibo,
   @Inject(MAT_DIALOG_DATA) public _data: InterAdmVacancy
   ) {}
 
 formatCnpjCpf(value:string){
-const cnpjCpf = value.replace(/\D/g, '');
-
-if (cnpjCpf.length === 11) {
-return cnpjCpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/g, "\$1.\$2.\$3-\$4");
-}
-
-return cnpjCpf.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/g, "\$1.\$2.\$3/\$4-\$5");
+  return this.#utilsService.formatCnpjCpf(value);
 }
 
 formatData(value: string){
-const data = new Date(value)
-return data.toLocaleDateString('pt-BR', {hour: "2-digit", minute: "2-digit"})
+return this.#utilsService.formatData(value);
 }
+
 }

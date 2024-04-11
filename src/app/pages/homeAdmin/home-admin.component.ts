@@ -11,10 +11,11 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatButtonModule } from '@angular/material/button';
 import { FormControl, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
 
-import { CarParkingService } from '../../services/car-parking.service';
 import { InterAdmClients } from '../interfacesCliAdmin/interAdmClients';
 import { HeaderCarComponent } from '../../shared/header-car/header-car.component';
-import { NavCarAdminComponent } from '../../../shared/nav-carAdmin/nav-car-admin.component';
+import { ParkingService } from '../../services/parking.service';
+import { UtilsService } from '../../services/utils.service';
+import { NavCarAdminComponent } from '../../shared/nav-car-admin/nav-car-admin.component';
 
 @Component({
   selector: 'app-home-admin',
@@ -33,10 +34,11 @@ export class HomeAdminComponent implements OnInit{
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   dataSource = new MatTableDataSource<InterAdmClients>();
-  length:number = 0
-  pageSize:number = 5
+  length:number = 0;
+  pageSize:number = 5;
   pageIndex = 0;
-  #apiService = inject(CarParkingService);
+  #apiService = inject(ParkingService);
+  #utilsService = inject(UtilsService);
 
   _dataSource = new MatTableDataSource<InterAdmClients>();
   _length:number = 0
@@ -86,22 +88,15 @@ export class HomeAdminComponent implements OnInit{
   }
 
   formatCnpjCpf(value:string){
-    const cnpjCpf = value.replace(/\D/g, '');
-
-  if (cnpjCpf.length === 11) {
-    return cnpjCpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/g, "\$1.\$2.\$3-\$4");
-  }
-
-  return cnpjCpf.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/g, "\$1.\$2.\$3/\$4-\$5");
+  return this.#utilsService.formatCnpjCpf(value)
 }
 
 formatCurrency(value: number){
- return new Intl.NumberFormat('pt-BR',{style: 'currency', currency: 'BRL'}).format(value)
+ return this.#utilsService.formatCurrency(value)
 }
 
 formatData(value: string){
-const data = new Date(value)
-return data.toLocaleDateString('pt-BR', {hour: "2-digit", minute: "2-digit"})
+return this.#utilsService.formatData(value)
 }
 
 setStep(index: number) {
