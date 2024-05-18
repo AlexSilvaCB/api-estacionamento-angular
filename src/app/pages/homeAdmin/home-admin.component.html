@@ -1,7 +1,24 @@
 <div class="Body">
 
   <header>
-    <app-header-car />
+    <div  class="container-fluid">
+      <div class="row">
+        <div class="col-lg-10">
+          <app-header-car />
+        </div>
+        <div class="col-lg-2 iconsHeader">
+          @if (contParkingVacancy(); as data) {
+          <p>
+            <i class="bi bi-taxi-front matIcon"> {{ data.vacancyOccupied }} </i>
+          </p>
+
+          <p>
+            <i class="bi bi-car-front matIcon"> {{ data.freeVancacy }} </i>
+          </p>
+        }
+        </div>
+      </div>
+    </div>
   </header>
 
   <section>
@@ -17,6 +34,35 @@
           <div class="tablePage">
 
             <mat-accordion class="example-headers-align">
+
+              <mat-expansion-panel class="expansionColor" [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
+                <mat-expansion-panel-header>
+                  <mat-panel-title class="textLabelColor">
+                    RELATÓRIO
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div class="container-fluid">
+
+                  <div class="row" >
+                    <div class="col-md-6" >
+                      <div class="grafHeight" >
+                        <canvas id="canvasPz">{{chartPizza}}</canvas>
+                      </div>
+                      <canvas id="canvas">{{chartBarra}}</canvas>
+                    </div>
+
+                      <div class="col-md-6" >
+                        <div class="grafHeight">
+                          <canvas id="canvasPz2" >{{chartPizza2}}</canvas>
+                        </div>
+                        <canvas id="canvas2">{{chartBarra2}}</canvas>
+                      </div>
+                    </div>
+
+                </div>
+              </mat-expansion-panel>
+
+
               <mat-expansion-panel class="expansionColor" [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
                 <mat-expansion-panel-header>
                   <mat-panel-title class="textLabelColor">

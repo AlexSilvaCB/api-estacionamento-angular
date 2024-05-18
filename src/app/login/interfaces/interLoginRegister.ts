@@ -1,4 +1,4 @@
 export interface InterloginRegister{
-    "username": "string",
-    "password": "string",
+    username: string | undefined;
+    password: string | undefined
 }

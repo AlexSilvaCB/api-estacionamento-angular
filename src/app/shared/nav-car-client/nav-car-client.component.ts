@@ -15,6 +15,8 @@ import { MsgSuccessComponent } from '../msg-success/msg-success.component';
 import { DialogMsgComponent } from '../dialog-msg/dialog-msg.component';
 import { ParkingService } from '../../services/parking.service';
 import { LoginService } from '../../services/login.service';
+import { InterUpdatePassword } from '../../pages/interfacesCliAdmin/interUpdatePassword';
+import { InterCreateCustomers } from '../../pages/interfacesCliAdmin/interCustomerRegistration';
 
 @Component({
   selector: 'app-nav-car-client',
@@ -68,8 +70,17 @@ export class NavCarClientComponent implements OnInit{
       Validators.required]],
   })
 
+  #treatmentUpdatePassword():InterUpdatePassword{
+    let formPassword: InterUpdatePassword;
+    return formPassword =  {
+      currentPassword: this.formUpdatePassword.value.currentPassword,
+      newPassword: this.formUpdatePassword.value.newPassword,
+      confirmPassword: this.formUpdatePassword.value.confirmPassword
+    }
+  }
+
   passwordUpdate(){
-   this.#apiService.updatePassword(this.formIdUpdate.value, this.formUpdatePassword.value).subscribe({
+   this.#apiService.updatePassword(this.formIdUpdate.value, this.#treatmentUpdatePassword()).subscribe({
     next: (resultService) =>{
      this.openSnackBar("Senha Atualizada com sucesso!!!")
      this.resetForms(1)
@@ -84,8 +95,17 @@ export class NavCarClientComponent implements OnInit{
     cpf:['', [Validators.required, Validators.pattern(/^([0-9]{11})$/)]]
   })
 
+  #treatmentCreateClient(): InterCreateCustomers{
+    let client: InterCreateCustomers;
+    return client = {
+      name: this.formCreateClient.value.name,
+      cpf: this.formCreateClient.value.cpf
+    }
+
+  }
+
   customerRegistration(){
-    this.#apiService.createClient(this.formCreateClient.value).subscribe({
+    this.#apiService.createClient(this.#treatmentCreateClient()).subscribe({
       next: (resultService) =>{
         this.openSnackBar("Cadastro realizado com sucesso!!!")
         this.resetForms(2)

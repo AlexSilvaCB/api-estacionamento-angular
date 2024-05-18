@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormsModule, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -13,24 +13,32 @@ import { HeaderCarComponent } from '../shared/header-car/header-car.component';
 import { LoginService } from '../services/login.service';
 import { MsgSuccessComponent } from '../shared/msg-success/msg-success.component';
 import { DialogMsgComponent } from '../shared/dialog-msg/dialog-msg.component';
+import { InterloginRegister } from './interfaces/interLoginRegister';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule,
-    MatInputModule, MatIconModule, MatButtonModule, HeaderCarComponent],
+  imports: [CommonModule,
+            ReactiveFormsModule,
+            FormsModule,
+            MatFormFieldModule,
+            MatInputModule,
+            MatIconModule,
+            MatButtonModule,
+            HeaderCarComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
+
 export class LoginComponent implements OnInit {
   #apiService = inject(LoginService);
   #router = inject(Router);
   #snackBar = inject(MatSnackBar);
+  #fb = inject(NonNullableFormBuilder);
 
   durationInSeconds = 5;
   horizontalPosition: MatSnackBarHorizontalPosition = 'end';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
-  registerFormAndLogin!: FormGroup;
 
   spinnerR: boolean = false
   spinnerL:boolean = false;
@@ -40,16 +48,18 @@ export class LoginComponent implements OnInit {
   constructor(public dialog: MatDialog) {}
 
   ngOnInit(): void {
-    this.registerFormAndLogin = new FormGroup({
-      username: new FormControl('', [
-        Validators.pattern('^[a-z0-9.+-]+@[a-z0-9.-]+\\.[a-z]{2,}$'),
-        Validators.required]),
-      password: new FormControl('', [
-        Validators.minLength(6),
-        Validators.maxLength(6),
-        Validators.required])
-    })
   }
+
+  registerFormAndLogin = this.#fb.group({
+    username:['', [
+      Validators.pattern('^[a-z0-9.+-]+@[a-z0-9.-]+\\.[a-z]{2,}$'),
+      Validators.required]],
+    password:['', [
+      Validators.minLength(6),
+      Validators.maxLength(6),
+      Validators.required]]
+  })
+
 
  validateFields():boolean{
    return this.registerFormAndLogin.valid ? false : true
@@ -63,11 +73,19 @@ userRegisterAndLogin(number: number){
     this.spinnerL = true;
   }
 
-  this.#apiService.userLogin$(this.registerFormAndLogin.value, number).subscribe({
+  this.#apiService.userLogin$(this.treatmentLoginRegistration(), number).subscribe({
   next: (resultService) =>
     this.onSuccess(resultService),
   error: (error: HttpErrorResponse) =>
     this.onError(error)});
+}
+
+treatmentLoginRegistration ():InterloginRegister{
+    let formLoginRegister: InterloginRegister;
+    return formLoginRegister = {
+    username: this.registerFormAndLogin.value.username,
+    password: this.registerFormAndLogin.value.password
+  }
 }
 
 private onSuccess(res:any){

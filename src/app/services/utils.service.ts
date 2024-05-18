@@ -18,11 +18,22 @@ export class UtilsService {
 }
 
 formatCurrency(value: number){
- return new Intl.NumberFormat('pt-BR',{style: 'currency', currency: 'BRL'}).format(value)
+  if(isNaN(value)){
+    return "R$ -"
+  }else{
+    return new Intl.NumberFormat('pt-BR',{style: 'currency', currency: 'BRL'}).format(value)
+  }
+
 }
 
 formatData(value: string){
 const data = new Date(value)
-return data.toLocaleDateString('pt-BR', {hour: "2-digit", minute: "2-digit"})
+if(value == null){
+  return ""
+}else{
+  return data.toLocaleDateString('pt-BR', {hour: "2-digit", minute: "2-digit"})
 }
+}
+
+
 }

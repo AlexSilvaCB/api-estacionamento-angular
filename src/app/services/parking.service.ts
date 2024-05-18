@@ -1,3 +1,4 @@
+import { InterCreateCustomers } from './../pages/interfacesCliAdmin/interCustomerRegistration';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable, inject, signal } from '@angular/core';
 import { Observable, catchError, shareReplay, tap, throwError } from 'rxjs';
@@ -7,10 +8,13 @@ import { InterParkingCustomer } from '../pages/interfacesCliAdmin/interParkingCu
 import { InterResVagaRecibo } from '../pages/interfacesCliAdmin/interResVagaRecibo';
 import { InterAdmClients } from '../pages/interfacesCliAdmin/interAdmClients';
 import { InterAdmAllClients } from '../pages/interfacesCliAdmin/interAdmAllClients';
-import { InterResParkingCheckin } from '../pages/interfacesCliAdmin/interResParkingCheckin';
+import { InterResParkingCheckin, InterResParkingVacancy } from '../pages/interfacesCliAdmin/interResParkingCheckin';
 import { InterResParkingCheckOut } from '../pages/interfacesCliAdmin/interResParkingCheckOut';
-import { InterAdmVacancy } from '../pages/interfacesCliAdmin/interAdmVacancy';
+import { InterAdmCreatedVacancy, InterAdmVacancy } from '../pages/interfacesCliAdmin/interAdmVacancy';
 import { InterClientDetails } from '../login/interfaces/interUserDetails';
+import { InterDateReports, InterResDateReports } from '../pages/interfacesCliAdmin/interDateReports';
+import { InterParkingCheckin } from '../pages/interfacesCliAdmin/interParkingCheckin';
+import { InterUpdatePassword } from '../pages/interfacesCliAdmin/interUpdatePassword';
 
 
 @Injectable({
@@ -22,6 +26,22 @@ export class ParkingService {
   #url:string = "http://localhost:8080/api/v1"
 
   constructor() { }
+
+ #setContParkingVacancy = signal<InterResParkingVacancy | null>(null)
+  get getContParkingVacancy(){
+    return this.#setContParkingVacancy.asReadonly();
+  }
+  public contParkingVacancy():Observable<InterResParkingVacancy> {
+    this.#setContParkingVacancy.set(null);
+    return this.#http.get<InterResParkingVacancy>(`${this.#url}/vacancy/contador`)
+      .pipe(
+      shareReplay(),
+      tap((res)=> res),
+      tap((res)=>{this.#setContParkingVacancy.set(res)}),
+      catchError((error) =>{
+        return throwError(()=>error);
+      })
+  )}
 
   #setClientDetails = signal<InterClientDetails | null>(null)
   get getClientDetails(){
@@ -39,7 +59,6 @@ export class ParkingService {
       tap((res)=> this.#setClientDetails.set(res)),
       catchError((error) =>{
         this.#setErrorClientDetails.set(error);
-        console.log(error.status)
         return throwError(()=>error);
       })
     )};
@@ -48,7 +67,7 @@ export class ParkingService {
     get getErrorUpdatePassword() {
       return this.#setErrorUpdatePassword.asReadonly();
     }
-    public updatePassword(id:number | null, record:Partial<{}>): Observable<void>{
+    public updatePassword(id:number | null, record:InterUpdatePassword): Observable<void>{
       this.#setErrorUpdatePassword.set(null)
         return this.#http.patch<void>(`${this.#url}/users/${id}`, record).pipe(
           shareReplay(),
@@ -63,7 +82,7 @@ export class ParkingService {
   get getInterCustomerRegistration(){
     return this.#setInterCustomerRegistration.asReadonly();
   }
-  public createClient(record: Partial<{}>):Observable<InterCustomerRegistration> {
+  public createClient(record: InterCreateCustomers):Observable<InterCustomerRegistration> {
     this.#setInterCustomerRegistration.set(null);
     return this.#http.post<InterCustomerRegistration>(`${this.#url}/clients`, record).pipe(
       shareReplay(),
@@ -93,6 +112,7 @@ export class ParkingService {
       })
   )}
 
+  //ok
   #setVagaReciboParking = signal<InterResVagaRecibo | null>(null)
   get getVagaReciboParking(){
     return this.#setVagaReciboParking.asReadonly();
@@ -112,7 +132,7 @@ export class ParkingService {
   }
 
   //logica Cliente
-
+  //ok
   #setAdmCustomer = signal<InterAdmClients[]| null>(null)
   get getAdmCustomer(){
     return this.#setAdmCustomer.asReadonly();
@@ -123,16 +143,18 @@ export class ParkingService {
   }
   public listAdmClients(page = 0, size = 5):Observable<InterAdmAllClients> {
     this.#setAdmCustomer.set(null);
-    return this.#http.get<InterAdmAllClients>(`${this.#url}/clients`,
-    {params: {page, size}}).pipe(
+    this.#setAdmAllCustomer.set(null);
+    return this.#http.get<InterAdmAllClients>(`${this.#url}/clients`, {params: {page, size}}).pipe(
       shareReplay(),
       tap((res)=> res),
       tap((res)=>{this.#setAdmCustomer.set(res.content)}),
+      tap((res)=>{this.#setAdmAllCustomer.set(res)}),
       catchError((error) =>{
         return throwError(()=>error);
       })
   )}
 
+  //ok
   #setAdmCustomerCPF = signal<InterAdmClients[]| null>(null)
   get getAdmCustomerCPF(){
     return this.#setAdmCustomerCPF.asReadonly();
@@ -153,11 +175,38 @@ export class ParkingService {
       })
   )}
 
+  /********************* */
+
+  #setAdmParkingChart = signal<InterResDateReports | null>(null)
+  get getAdmParkingChart(){
+    return this.#setAdmParkingChart.asReadonly();
+  }
+  #setErrorAdmParkingChart = signal< HttpErrorResponse | null>(null)
+  get getErrorAdmParkingChart() {
+    return this.#setErrorAdmParkingChart.asReadonly();
+  }
+  public parkingChart(record: InterDateReports):Observable<InterResDateReports> {
+    console.log(record)
+    this.#setAdmParkingChart.set(null);
+    this.#setErrorAdmParkingChart.set(null);
+    return this.#http.post<InterResDateReports>(`${this.#url}/parking/date_chart`, record).pipe(
+      shareReplay(),
+      tap((res)=> res),
+      tap((res)=>{this.#setAdmParkingChart.set(res)}),
+      tap((res) => console.log(res)),
+      catchError((error) =>{
+        this.#setErrorAdmParkingChart.set(error)
+        return throwError(()=>error);
+      })
+  )}
+
+  /************************************************** */
+  //ok
   #setAdmCheckin = signal<InterResParkingCheckin | null>(null)
   get getAdmCheckin(){
     return this.#setAdmCheckin.asReadonly();
   }
-  public CheckInAdm(record:Partial<{}>): Observable<InterResParkingCheckin>{
+  public CheckInAdm(record: InterParkingCheckin): Observable<InterResParkingCheckin>{
     this.#setAdmCheckin.set(null)
       return this.#http.post<InterResParkingCheckin>(`${this.#url}/parking/check-in`, record).pipe(
         shareReplay(),
@@ -167,6 +216,7 @@ export class ParkingService {
         })
   )}
 
+//ok
   #setAdmCheckOut = signal< InterResParkingCheckOut | null>(null)
   get getAdmCheckOut(){
     return this.#setAdmCheckOut.asReadonly();
@@ -182,8 +232,7 @@ export class ParkingService {
         })
   )}
 
-
-  public createVacancy(record:{}): Observable<any>{
+  public createVacancy(record:InterAdmCreatedVacancy): Observable<any>{
       return this.#http.post<any>(`${this.#url}/vacancy`, record).pipe(
         shareReplay(),
         tap((res)=> res),
@@ -206,4 +255,6 @@ export class ParkingService {
           return throwError(()=>error);
         })
   )}
+
+
 }

@@ -8,6 +8,27 @@
     position: sticky;
     top: 0;
     z-index: 2;
+
+    .container-fluid{
+      padding: 0;
+    }
+
+    .iconsHeader{
+      background-color: #0000FF;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+
+      p{
+        padding-top: 10px;
+      }
+
+      .matIcon{
+        color: #FFF;
+        font-size: 24px;
+      }
+    }
+
   }
 
   section{
@@ -22,6 +43,13 @@
     .divList{
      padding:0 5px 0 5px;
     }
+  }
+
+  .grafHeight{
+    height: 280px;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: center;
   }
 
   .filterS{

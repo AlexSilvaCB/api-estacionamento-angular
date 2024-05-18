@@ -1,6 +1,6 @@
 export interface InterClientDetails
 {
-  "id": number,
-  "name": "string",
-  "cpf": "string"
+  id: number,
+  name: string,
+  cpf: string
 }

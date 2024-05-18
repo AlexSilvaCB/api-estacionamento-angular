@@ -16,6 +16,7 @@ import { MsgSuccessComponent } from '../msg-success/msg-success.component';
 import { ParkingService } from '../../services/parking.service';
 import { DialogFormAdminComponent } from '../dialog-form-admin/dialog-form-admin.component';
 import { LoginService } from '../../services/login.service';
+import { InterAdmCreatedVacancy } from '../../pages/interfacesCliAdmin/interAdmVacancy';
 
 
 @Component({
@@ -62,10 +63,19 @@ export class NavCarAdminComponent implements OnInit {
       ]]
    })
 
+   #treatmentCreateVacancy():InterAdmCreatedVacancy{
+    let vacancy: InterAdmCreatedVacancy;
+
+    return vacancy = {
+      code: this.formCreateVacancy.value.code,
+      status: this.formCreateVacancy.value.status
+    }
+   }
+
    formByVacancy = new FormControl(null, [Validators.required, Validators.minLength(4)])
 
    createVacancy(){
-   this.#apiService.createVacancy(this.formCreateVacancy.value).subscribe({
+   this.#apiService.createVacancy(this.#treatmentCreateVacancy()).subscribe({
     next: (resultService) =>{
      this.openSnackBar("Vaga Criada com sucesso!!!")
      this.resetForms(2)

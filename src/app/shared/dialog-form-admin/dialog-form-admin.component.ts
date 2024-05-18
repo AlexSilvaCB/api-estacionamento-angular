@@ -85,38 +85,53 @@ export class DialogFormAdminComponent {
         Validators.required]],
   })
 
+  #treatmentFormCheckin():InterParkingCheckin{
+    let checkIn: InterParkingCheckin;
+
+    checkIn = {
+    plate: this.formCheckin.value.plate,
+    brand:  this.formCheckin.value.brand,
+    model: this.formCheckin.value.model,
+    color: this.formCheckin.value.color,
+    clientCpf: this.formCheckin.value.clientCpf,
+    }
+    return checkIn;
+  }
+
+  checkInAdm(){
+    this.#apiService.CheckInAdm(this.#treatmentFormCheckin()).subscribe({
+      next: (resultService) =>{
+       this.openSnackBar("Check-in Realizado com sucesso")
+       this.resetForms(1)
+       this.#apiService.contParkingVacancy().subscribe()
+       },
+      error: (error) =>
+      this.openDialog(error.error.message)
+    })
+  }
+
   formCheckOut = new FormControl("",[
     Validators.required,
     Validators.minLength(15),
     Validators.maxLength(15),
   ])
 
-  checkInAdm(){
-    this.#apiService.CheckInAdm(this.formCheckin.value).subscribe({
-      next: (resultService) =>{
-       this.openSnackBar("Check-in Realizado com sucesso")
-       this.resetForms(1)
-       },
-      error: (error) =>
-      this.openDialog(error.error.message)
-    })
-  }
-
   checkOutAdm(){
   this.#apiService.CheckOutAdm(this.formCheckOut.value).subscribe({
       next: (resultService) =>{
        this.resetForms(2)
+       this.#apiService.contParkingVacancy().subscribe()
        },
       error: (error) =>
       this.openDialog(error.error.message)
     })
   }
 
-  calcTotalCheckOut(value1: number, value2: number):number{
+ calcTotalCheckOut(value1: number, value2: number):number{
     return value1 - value2
   }
 
-  validateFieldsFormCheckin():boolean{
+ validateFieldsFormCheckin():boolean{
     return this.formCheckin.valid ? false : true
  }
 

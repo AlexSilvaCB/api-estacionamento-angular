@@ -19,8 +19,7 @@ export class LoginService {
 
   constructor() { }
 
-  public userLogin$(record: InterloginRegister, rl: number): Observable<InterloginRegister>{
-    console.log(record)
+  public userLogin$(record:InterloginRegister, rl: number): Observable<InterloginRegister>{
     if (rl == 1) {
       return this.#http.post<InterloginRegister>(`${this.#url}/users`, record).pipe(
         shareReplay(),
@@ -31,13 +30,12 @@ export class LoginService {
         shareReplay(),
         tap((res)=>(res)),
         tap((tokens:any)=>
-        this.#doLoginUser(record.username, tokens.token)
+        this.#doLoginUser(tokens.token)
       ))
     };
   }
 
-  #doLoginUser(username: string, token: any){
-    this.#loggedUser = username;
+  #doLoginUser(token: any){
     this.#storeJwtToken(token);
     this.#isAuthenticatedSubject.next(true);
   }

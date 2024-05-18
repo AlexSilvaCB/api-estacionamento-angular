@@ -1,5 +1,5 @@
 export interface InterAdmClients {
-  name: "string",
+  name: string,
   id: number,
-  cpf: "string"
+  cpf: string
 }
