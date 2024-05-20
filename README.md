@@ -1,27 +1,56 @@
-# ApiEstacionamentoAngular
+<div align="center">
+ <img width="800px" src="screenshot/Login.png" />
+</div>
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.1.2.
 
-## Development server
+<h1> Projeto Web Responsivo FullStack - Gerenciamento de estacionamento </h1>
+<p> Projeto consiste em aplicar conhecimentos adquiritos em Java, Angular e seus frameworks para a contrução de uma aplicação web responsivo para gerenciamento de estacionamento, 
+  aplicando em sua construção padrões de projeto, segurança, testes e boas praticas.
+ O sistema de gerenciamento consiste em: </p>
+ 
+<h3> ADMIN <h3>
+  
+  <li> Controle de entrada "checkIn" e saída "checkOut" </li>
+  <li> Visualização quantos carros estacionados </li>
+  <li> Busca por vagas </li>
+  <li> Busca por CPF </li>
+  <li> Relatório automático 02 últimos meses- demonstrativo de valores total e quantidade total de acessos </li>
+  <li> Lista automática de Clientes </li>
+  
+  <h3> CLIENTE <h3>
+    
+  <li> Cadastro de Cliente </li>
+  <li> Atualização de Senha </li>
+  <li> Relatório em lista de todos os estacionamentos realizados</li>
+  <li> Busca por vagas </li>
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+<h2> Tecnologias Utilizadas </h2>
 
-## Code scaffolding
+<h3> Back End </h3>
+  <li> Java </li>
+  <li> Spring Boot e Spring Security </li>
+  <li> SQL - MySql </li>
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+<h3> Front End </h3>
 
-## Build
+  <li> Javascript </li>
+  <li> Typescript </li>
+  <li> HTLM e SCSS </li>
+  <li> Angular e Bootstrap </li>
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+<h3> Ferramentas </h3>
 
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+  <li> Postman </li>
+  <li> MSQL Workbench </li>
+  
+<h2>Screenshot</h2>
+<div align="center">
+  <p>Tela Inicial Admin</p>
+  <img width="800px" src="screenshot/Admin tela inicial.png" />
+  <p>Tela Inicial Cliente</p>
+  <img width="800px" src="screenshot/Cliente tela Inicial.png" />
+  <p>Admin - CheckIn</p>
+  <img width="800px" src="screenshot/Admin tela inicial checkIn.png" />
+  <p>Admin - Relatório Gráfico</p>
+  <img width="800px" src="screenshot/Relatório.png" />
+</div>
